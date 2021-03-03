@@ -1,0 +1,37 @@
+<!--Books show. ※Book.new => @booka-->
+<div class="container px-5 px-sm-0">
+  <div class="row">
+    <!--User info, New book-->
+    <div class="col-md-3">
+      <%= render partial: 'books/user', locals: {user: @user, book: @book_new} %>
+    </div>
+
+    <!--Book詳細-->
+    <div class="col-md-8 offset-md-1">
+      <h2>Book detail</h2>
+      <table class="table table-hover table-inverse">
+        <tbody>
+          <tr>
+            <td>
+              <%= link_to user_path(@book.user.id) do %>
+                <%= attachment_image_tag @book.user, :profile_image, size: "40x40", fallback: "no_image.jpg" %><br />
+                <%= @book.user.name %>
+              <% end %>
+            </td>
+            <td>
+              <%= link_to book_path(@book) do %>
+                <%= @book.title %>
+              <% end %>
+            </td>
+            <td><%= @book.body %></td>
+            <!--作成ユーザなら表示↓-->
+            <% if @book.user == current_user %>
+            <td><%= link_to "Edit", edit_book_path(@book), class: 'btn btn-success' %></td>
+            <td><%= link_to "Destroy", book_path(@book.id), class:'btn btn-danger', method: :delete, data: {confirm: "「#{@book.title}」を削除します。"} %></td>
+            <% end %>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
