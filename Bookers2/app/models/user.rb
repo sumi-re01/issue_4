@@ -24,7 +24,7 @@ def follow(other_user)
 end
 
 def unfollow(other_user)
-  active_relationships.find_by(followed_id: other_user).destroy
+  active_relationships.find(followed_id: other_user).destroy
 end
 
 # フォローしているかどうか

@@ -7,7 +7,7 @@ class RelationshipsController < ApplicationController
   end
 
   def destroy
-    user = Relationship.where(follower_id:params[:id])
+    user = Relationship.where(followed_id: params[:id])
     current_user.unfollow(user)
     redirect_back(fallback_location: users_path)
   end

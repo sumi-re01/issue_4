@@ -31,7 +31,7 @@
 
                 <% if current_user.following?(user) %>
                 <!--フォローしている場合-->
-                  <%= link_to relationship_path(current_user), method: :delete do %>
+                  <%= link_to relationship_path(user.id), method: :delete do %>
                     フォローを外す
                   <% end %>
 
