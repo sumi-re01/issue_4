@@ -22,6 +22,30 @@
           <tr>
             <td><%= attachment_image_tag user, :profile_image, size: "40x40", fallback: "no_image.jpg" %></td>
             <td><%= user.name %></td>
+            <td>フォロー数：<%= user.followers.count %></td>
+            <td>フォロワー数：<%= user.following.count %></td>
+
+            <td>
+            <% unless current_user == user %>
+              <div id="follow">
+
+                <% if current_user.following?(user) %>
+                <!--フォローしている場合-->
+                  <%= link_to relationship_path(current_user), method: :delete do %>
+                    フォローを外す
+                  <% end %>
+
+                <% else %>
+                <!--フォローしていない場合-->
+                  <%= link_to relationships_path(user), method: :create do %>
+                    フォローする
+                  <% end %>
+                <% end %>
+
+              </div>
+            <% end %>
+            </td>
+
             <td>
               <%= link_to "Show", user_path(user.id) %>
             </td>
