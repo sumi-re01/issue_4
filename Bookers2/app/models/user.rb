@@ -10,6 +10,7 @@ class User < ApplicationRecord
 # association Book
   has_many :books, dependent: :destroy
 
+
 # association Relation
 # active(フォローする)
   has_many :active_relationships, class_name:"Relationship", foreign_key: "follower_id", dependent: :destroy
@@ -17,6 +18,20 @@ class User < ApplicationRecord
 # passive(フォローされる)
   has_many :passive_relationships, class_name:"Relationship", foreign_key: "followed_id", dependent: :destroy
   has_many :followers, through: :passive_relationships, source: :follower #一覧の取得
+# フォロー関係のメソッド
+def follow(other_user)
+  active_relationships.create(followed_id: other_user.id)
+end
+
+def unfollow(other_user)
+  active_relationships.find_by(followed_id: other_user).destroy
+end
+
+# フォローしているかどうか
+def following?(other_user)
+  following.include?(other_user)
+end
+
 
   attachment :profile_image
 end
