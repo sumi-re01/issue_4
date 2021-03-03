@@ -12,14 +12,51 @@
         <th>introduction</th>
         <th><%= user.introduction %></th>
       </tr>
+      <tr>
+        <th>follows</th>
+        <th>
+          <%= link_to following_user_path(user.id) do %>
+            <%= user.following.count %>
+          <% end %>
+        </th>
+      </tr>
+      <tr>
+        <th>followers</th>
+        <th>
+          <%= link_to followers_user_path(user.id) do %>
+            <%= user.followers.count %>
+          <% end %>
+        </th>
+      </tr>
+
     </tbody>
   </table>
 <div class="row">
-  <!--% if user.id == current_user.id % -->
+
+  <% unless current_user == user %>
+  <div id="follow">
+  　<% if current_user.following?(user) %>
+    <!--フォローしている場合-->
+    <!--(current_user.active_relationships.find_by(followed_id: user.id))で
+        Relationの自分がフォローしている方にいる時のfollowed_idに相手のuser.idもいるPKを取得しているのかも？？-->
+      <%= link_to relationship_path(current_user.active_relationships.find_by(followed_id: user.id)), class:'btn btn-info',  method: :delete do %>
+        フォローを外す
+      <% end %>
+
+    <% else %>
+    <!--フォローしていない場合-->
+      <%= link_to relationships_path( followed_id: user.id), class:'btn btn-success', method: :post do %>
+        フォローする
+      <% end %>
+    <% end %>
+  </div>
+<% end %>
+
+  <% if user.id == current_user.id %>
     <%= link_to edit_user_path(user.id), class: 'btn btn-outline-secondary btn-block' do %>
     <i class="fas fa-user-cog"></i>
     <% end %>
-  <!--% end %-->
+  <% end %>
 </div>
 
 <!--新期投稿-->

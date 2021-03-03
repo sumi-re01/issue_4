@@ -3,10 +3,6 @@ class UsersController < ApplicationController
 
   def show
     @user = User.find(params[:id])
-
-    # @relationship = current_user.active_relationships.find_by(followed_id: @user.id)
-    # @set_relationship = current_user.active_relationships.new
-
     @books = @user.books
     @book_new = Book.new
   end
@@ -34,6 +30,17 @@ class UsersController < ApplicationController
       render :edit
     end
   end
+
+
+  def following
+    @user = User.find(params[:id])
+  end
+
+  def followers
+    @user = User.find(params[:id])
+    @users = @user.id.followers
+  end
+
 
   private
 
