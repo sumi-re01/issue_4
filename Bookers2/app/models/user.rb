@@ -20,18 +20,19 @@ class User < ApplicationRecord
   has_many :followers, through: :passive_relationships, source: :follower #一覧の取得
 # フォロー関係のメソッド
 def follow(other_user)
-  active_relationships.create(followed_id: other_user.id)
+  unless self == other_user
+    self.active_relationships.create(followed_id: other_user.id)
+  end
 end
 
 def unfollow(other_user)
-  active_relationships.find(followed_id: other_user).destroy
+  active_relationships.find_by(followed_id: other_user).destroy
 end
 
 # フォローしているかどうか
 def following?(other_user)
   following.include?(other_user)
 end
-
 
   attachment :profile_image
 end
